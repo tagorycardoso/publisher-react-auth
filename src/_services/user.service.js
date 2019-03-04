@@ -14,7 +14,7 @@ function login(username, password) {
         body: JSON.stringify({ username, password })
     };
 
-    return fetch(`${config.apiUrl}/users/authenticate`, requestOptions)
+    return fetch(`http://localhost:3001/authenticate`, requestOptions)
         .then(handleResponse)
         .then(user => {
             // login successful if there's a user in the response
@@ -45,12 +45,13 @@ function getAll() {
 
 function handleResponse(response) {
     return response.text().then(text => {
+        alert(text);
         const data = text && JSON.parse(text);
         if (!response.ok) {
             if (response.status === 401) {
                 // auto logout if 401 response returned from api
                 logout();
-                location.reload(true);
+                //location.reload(true);
             }
 
             const error = (data && data.message) || response.statusText;
